@@ -1,0 +1,37 @@
+# view res/layout/activity_collection_demo.xml #generated:26
+-keep class android.support.v4.view.PagerTitleStrip { <init>(...); }
+
+# view res/layout/activity_collection_demo.xml #generated:17
+# view res/layout/activity_main.xml #generated:17
+-keep class android.support.v4.view.ViewPager { <init>(...); }
+
+# view AndroidManifest.xml #generated:97
+-keep class com.google.ads.AdActivity { <init>(...); }
+
+# view res/layout/main.xml #generated:64
+# view res/layout/main.xml #generated:98
+# view res/layout/main_rel.xml #generated:7
+# view res/layout/players.xml #generated:27
+-keep class com.google.ads.AdView { <init>(...); }
+
+# view AndroidManifest.xml #generated:53
+-keep class com.mkukuluk.dealsaggregator.DisplayFavesActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:33
+-keep class com.mkukuluk.dealsaggregator.FetchDeals { <init>(...); }
+
+# view AndroidManifest.xml #generated:46
+-keep class com.mkukuluk.dealsaggregator.HelpActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:79
+-keep class com.mkukuluk.dealsaggregator.ManageMySitesActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:62
+-keep class com.mkukuluk.dealsaggregator.MySitesActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:88
+-keep class com.mkukuluk.dealsaggregator.MySitesHelpActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:71
+-keep class com.mkukuluk.dealsaggregator.SettingsActivity { <init>(...); }
+

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/photo"
+        android:layout_width="3dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/photo"
+        android:textSize="42sp"/>
+
+    <TextView
+        android:id="@+id/team"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/photo"
+        android:layout_below="@id/name"/>
+
+    <com.google.ads.AdView xmlns:ads= "http://schemas.android.com/apk/lib/com.google.ads"
+        android:id="@+id/adView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="a152b47c1cca8a4"
+        ads:loadAdOnCreate="true" >
+    </com.google.ads.AdView>
+
+    <EditText android:id="@+id/inputSearch1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search products.."
+        android:inputType="textVisiblePassword"/>
+
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:layout_above="@+id/adView1"
+        android:layout_below="@+id/inputSearch1"
+        android:textSize="38sp"
+        />
+
+</RelativeLayout>

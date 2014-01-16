@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  Copyright (C) 2012 The Android Open Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<ListPreference-->
+        <!--android:title="Download Feed"-->
+        <!--android:summary="Network connectivity required to download the feed."-->
+        <!--android:key="listPref"-->
+        <!--android:defaultValue="Any"-->
+        <!--android:entries="@array/listArray"-->
+        <!--android:entryValues="@array/listValues"-->
+     <!--/>-->
+    <MultiSelectListPreference
+        android:title="Select your deal sites"
+        android:summary="Select Sites"
+        android:key="msSitePref"
+        android:defaultValue="@array/defSiteValues"
+        android:entries="@array/siteArray"
+        android:entryValues="@array/siteValues"
+        />
+
+    <ListPreference
+        android:title="Search Option"
+        android:summary="Turn the Search box ON or OFF"
+        android:key="searchPref"
+        android:defaultValue="ON"
+        android:entries="@array/searchArray"
+        android:entryValues="@array/searchValues"
+        />
+
+    <ListPreference
+        android:title="Deal Display Options"
+        android:summary="Show the entire text of the deal"
+        android:key="detailsPref"
+        android:defaultValue="detailsON"
+        android:entries="@array/detailsArray"
+        android:entryValues="@array/detailsValues"
+        />
+
+
+    <!--<EditTextPreference-->
+        <!--android:title="Add Your Own Site"-->
+        <!--android:summary="Add your own RSS feed - A name followed by a space and the feed URL"-->
+        <!--android:key="newSite"/>-->
+
+
+    <Preference android:title="Manage Your Site Feeds"
+        android:key="editUserSites">
+        <intent android:action="com.mkukuluk.dealsaggregator.ManageMySitesActivity" />
+    </Preference>
+</PreferenceScreen>

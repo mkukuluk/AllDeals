@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".EditTextActivity" >
+
+    <!-- we're using scroll view to see all contents -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <!-- EditText for plain text input -->
+            <View
+                android:id="@+id/anchor"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:id="@+id/textViewSiteFeedName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Name of Site Feed:" />
+
+            <EditText
+                android:id="@+id/editTextSiteFeedName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewSiteFeedName"
+                android:hint="Type a name for your site feed."
+                android:singleLine="true" >
+            </EditText>
+
+            <!-- EditText for password input -->
+
+            <TextView
+                android:id="@+id/textViewSiteURL"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editTextSiteFeedName"
+                android:text="RSS Site Feed URL:" />
+
+            <EditText
+                android:id="@+id/editTextSiteURL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewSiteURL"
+                android:hint="Site URL"
+                android:singleLine="true" >
+            </EditText>
+
+            <!-- EditText for email address input -->
+
+
+            <!-- Some options with EditText -->
+
+            <!-- Button to clear -->
+            <Button
+                android:id="@+id/clearTextInput"
+                android:layout_width="wrap_content"
+                android:minWidth="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/editTextSiteURL"
+                android:text="Clear" />
+
+            <!-- Button to save -->
+            <Button
+                android:id="@+id/saveInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/clearTextInput"
+                android:text="Save" />
+            <!--<Button-->
+                <!--android:id="@+id/setDefaultInput"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_below="@+id/saveInput"-->
+                <!--android:text="Set My Sites as Default View" />-->
+            <!--<Button-->
+                <!--android:id="@+id/setStandardInput"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_below="@+id/setDefaultInput"-->
+                <!--android:text="Set All Sites as Default View" />-->
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
