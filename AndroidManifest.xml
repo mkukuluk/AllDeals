@@ -24,11 +24,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
-        android:icon="@drawable/bag_icon3"
-        android:label="All Deals" >
+        android:icon="@drawable/cart"
+        android:label="All Deals"
+        android:debuggable="true" >
 
         <activity
             android:name="com.mkukuluk.dealsaggregator.FetchDeals"

@@ -23,6 +23,11 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -45,6 +50,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ShareActionProvider;
@@ -63,6 +69,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import android.app.ListActivity;
@@ -219,6 +226,36 @@ public class FetchDeals extends ListActivity {
 
             dealMap = new HashMap();
 
+
+            //
+            LocationManager locationManager = (LocationManager)
+                    getSystemService(LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+            String bestProvider = locationManager.getBestProvider(criteria, false);
+            Location location = locationManager.getLastKnownLocation(bestProvider);
+            double lat, lon;
+            try {
+                lat = location.getLatitude();
+                lon = location.getLongitude();
+            } catch (NullPointerException e) {
+                lat = -1.0;
+                lon = -1.0;
+            }
+            Geocoder gcd = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses = null;
+            try {
+                addresses = gcd.getFromLocation(lat, lon, 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (addresses.size() > 0){
+//                System.out.println(addresses.get(0).getLocality());
+            Toast.makeText(FetchDeals.this, "Latitude "+lat+" Longitude "+lon+" "+addresses.get(0).getCountryCode(), Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(FetchDeals.this, "Latitude "+lat+" Longitude "+lon+" ", Toast.LENGTH_LONG).show();
+            }
+
+            //
             if(inputSearch!=null){
             inputSearch.setText("");
             }
@@ -820,46 +857,63 @@ public class FetchDeals extends ListActivity {
 
 
     //custom view
-
-    private class CustomListAdapter extends ArrayAdapter {
-
-        private Context mContext;
-        private int id;
-        private List <String>items ;
-
-        public CustomListAdapter(Context context, int textViewResourceId , List<String> list )
-        {
-            super(context, textViewResourceId, list);
-            mContext = context;
-            id = textViewResourceId;
-            items = list ;
-        }
-
-        @Override
-        public View getView(int position, View v, ViewGroup parent)
-        {
-            View mView = v ;
-            if(mView == null){
-                LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                mView = vi.inflate(id, null);
-            }
-
-            TextView text = (TextView) mView.findViewById(R.id.textView);
-
-            if(items.get(position) != null )
-            {
-                text.setTextColor(Color.WHITE);
-                text.setText(items.get(position));
-                text.setBackgroundColor(Color.RED);
-                int color = Color.argb( 200, 255, 64, 64 );
-                text.setBackgroundColor( color );
-
-            }
-
-            return mView;
-        }
-
-    }
-
+//
+//    private class CustomAdapter extends ArrayAdapter<HashMap<String, Object>>
+//    {
+//
+//        LayoutInflater inflater;
+//        public CustomAdapter(Context context, int textViewResourceId,
+//                             ArrayList<HashMap<String, Object>> Strings) {
+//
+//            //let android do the initializing :)
+//            super(context, textViewResourceId, Strings);
+//        }
+//
+//
+//        //class for caching the views in a row
+//        private class ViewHolder
+//        {
+//            ImageView photo;
+//            TextView name,team;
+//
+//        }
+//
+//        ViewHolder viewHolder;
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//
+//            if(convertView==null)
+//            {
+//                //inflate the custom layout
+//                convertView=inflater.inflate(R.layout.players, null);
+//                viewHolder=new ViewHolder();
+//
+//                //cache the views
+//                viewHolder.photo=(ImageView) convertView.findViewById(R.id.photo);
+//                viewHolder.name=(TextView) convertView.findViewById(R.id.name);
+////                viewHolder.team=(TextView) convertView.findViewById(R.id.team);
+//
+//                //link the cached views to the convertview
+//                convertView.setTag(viewHolder);
+//
+//            }
+//            else
+//                viewHolder=(ViewHolder) convertView.getTag();
+//
+//
+//            int photoId=(Integer) players.get(position).get("photo");
+//
+//            //set the data to be displayed
+//            viewHolder.photo.setImageDrawable(getResources().getDrawable(photoId));
+//            viewHolder.name.setText(players.get(position).get("name").toString());
+////            viewHolder.team.setText(players.get(position).get("team").toString());
+//
+//            convertView.setBackgroundColor((position % 2) == 1 ? Color.GRAY : Color.BLACK);
+//            //return the view to be displayed
+//            return convertView;
+//        }
+//
+//    }
 }
 

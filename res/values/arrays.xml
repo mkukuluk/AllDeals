@@ -52,6 +52,18 @@
         <item>All</item>
     </string-array>
 
+    <string-array name="siteArrayUAE">
+        <item>Cobone</item>
+        <item>Groupon</item>
+        <item>All</item>
+    </string-array>
+    <string-array name="siteValuesUAE">
+        <item>Cobone</item>
+        <item>Groupon</item>
+        <item>All</item>
+    </string-array>
+
+
     <string-array name="detailsArray">
         <item>Show Details</item>
         <item>Show Only 1 line</item>
