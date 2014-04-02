@@ -67,18 +67,35 @@
                 android:layout_width="wrap_content"
                 android:minWidth="100dp"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="100dp"
                 android:layout_below="@+id/editTextSiteURL"
                 android:text="Clear" />
 
             <!-- Button to save -->
-            <Button
-                android:id="@+id/saveInput"
+            <!--Button
+                android:id="@+id/addToExisting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/clearTextInput"
+                android:text="Add Site to Existing List" /-->
+
+            <Button
+                android:id="@+id/addToNew"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignBottom="@+id/clearTextInput"
+                android:layout_toRightOf="@+id/clearTextInput"
                 android:text="Save" />
+
+            <!--Button
+                android:id="@+id/restoreDefaults"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/addToNew"
+                android:text="Restore Defaults" /-->
             <!--<Button-->
                 <!--android:id="@+id/setDefaultInput"-->
                 <!--android:layout_width="wrap_content"-->

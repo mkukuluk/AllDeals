@@ -17,8 +17,10 @@
 package com.mkukuluk.dealsaggregator;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
@@ -190,6 +192,28 @@ public class ManageMySitesActivity extends FragmentActivity implements ActionBar
         }
     }
 
+    //Help Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settingscreenmenu, menu);
+        return true;
+    }
+
+    // Handles the user's menu selection.
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.help:
+                Intent mainActivity = new Intent(getBaseContext(), ManageMySitesHelp.class);
+                startActivity(mainActivity);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     /**
      * A fragment that launches other parts of the demo application.
      */
@@ -257,10 +281,12 @@ public class ManageMySitesActivity extends FragmentActivity implements ActionBar
                 public void onClick(View v) {
                     // we will use switch statement and just
                     // get thebutton's id to make things easier
+
+                    SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator.usersite", Context.MODE_PRIVATE);
+                    final SharedPreferences.Editor editor = prefs.edit();
                     switch (v.getId()) {
-                        case R.id.saveInput:
-                            SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator.usersite", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = prefs.edit();
+                        case R.id.addToNew:
+
 
                             editor.putString(editTextSiteNameInput.getText().toString(), editTextSiteURLInput.getText().toString());
 
@@ -270,36 +296,36 @@ public class ManageMySitesActivity extends FragmentActivity implements ActionBar
                             break;
                         // the EditText for plain text input will be cleared
                         case R.id.clearTextInput:
-                            editTextSiteNameInput.setText("");
-                            editTextSiteURLInput.setText("");
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ManageMySitesActivity.this);
+                            builder.setTitle("Confirm");
+                            builder.setMessage("Are you sure you want to clear all values?");
+                            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    editTextSiteNameInput.setText("");
+                                    editTextSiteURLInput.setText("");
+
+                                }
+                            })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            builder.show();
+
                             break;
 
-//                        case R.id.setDefaultInput:
-//                            SharedPreferences prefs1 = getSharedPreferences("com.mkukuluk.dealaggregator.defaultview", Context.MODE_PRIVATE);
-//                            SharedPreferences.Editor editor1 = prefs1.edit();
-//                            editor1.clear();
-//                            editor1.putString("defaultview", "mysites");
-//
-//                            editor1.commit();
-//                            finish();
-//                            break;
-//                        case R.id.setStandardInput:
-//                            SharedPreferences prefs2 = getSharedPreferences("com.mkukuluk.dealaggregator.defaultview", Context.MODE_PRIVATE);
-//                            SharedPreferences.Editor editor2 = prefs2.edit();
-//                            editor2.clear();
-//                            editor2.putString("defaultview", "allsites");
-//
-//                            editor2.commit();
-//                           finish();
-//                            break;
+
+
 
                     }
                 }
             };
 
-            // we will set the listeners of our three buttons
-            rootView.findViewById(R.id.saveInput).setOnClickListener(handler);
+            // we will set the listeners of our buttons
+            rootView.findViewById(R.id.addToNew).setOnClickListener(handler);
             rootView.findViewById(R.id.clearTextInput).setOnClickListener(handler);
+
             return rootView;
 
         }

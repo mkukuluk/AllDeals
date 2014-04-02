@@ -48,7 +48,7 @@ public class DisplayFavesActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.players);
-        SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator", Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator.faves", Context.MODE_PRIVATE);
         Map<String, ?> temp = new HashMap();
         temp = prefs.getAll();
         Iterator it = temp.entrySet().iterator();
@@ -116,7 +116,8 @@ public class DisplayFavesActivity extends ListActivity {
 
     }
 
-    protected void onListItemClick(ListView l, View v, int position, long id) {
+
+       protected void onListItemClick(ListView l, View v, int position, long id) {
 
 //        Uri feedUri = Uri.parse(myRssFeed.getItem(position).getLink());
         String urlofdeal = dealURLList.get(position);
@@ -169,7 +170,7 @@ public class DisplayFavesActivity extends ListActivity {
                 case R.id.favedel:
 
 
-                    SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator", Context.MODE_PRIVATE);
+                    SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator.faves", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
                     SparseBooleanArray checkedItems = getListView().getCheckedItemPositions();
                     int len = dealList.size();

@@ -22,6 +22,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.location.Address;
 import android.location.Criteria;
@@ -227,33 +228,27 @@ public class FetchDeals extends ListActivity {
             dealMap = new HashMap();
 
 
-            //
-            LocationManager locationManager = (LocationManager)
-                    getSystemService(LOCATION_SERVICE);
-            Criteria criteria = new Criteria();
-            String bestProvider = locationManager.getBestProvider(criteria, false);
-            Location location = locationManager.getLastKnownLocation(bestProvider);
-            double lat, lon;
-            try {
-                lat = location.getLatitude();
-                lon = location.getLongitude();
-            } catch (NullPointerException e) {
-                lat = -1.0;
-                lon = -1.0;
-            }
-            Geocoder gcd = new Geocoder(this, Locale.getDefault());
-            List<Address> addresses = null;
-            try {
-                addresses = gcd.getFromLocation(lat, lon, 1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (addresses.size() > 0){
-//                System.out.println(addresses.get(0).getLocality());
-            Toast.makeText(FetchDeals.this, "Latitude "+lat+" Longitude "+lon+" "+addresses.get(0).getCountryCode(), Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(FetchDeals.this, "Latitude "+lat+" Longitude "+lon+" ", Toast.LENGTH_LONG).show();
-            }
+            //@TODO Location!!
+//            LocationManager locationManager = (LocationManager)
+//                    getSystemService(LOCATION_SERVICE);
+//            Criteria criteria = new Criteria();
+//            String bestProvider = locationManager.getBestProvider(criteria, false);
+//            Location location = locationManager.getLastKnownLocation(bestProvider);
+//            double lat, lon;
+//            try {
+//                lat = location.getLatitude();
+//                lon = location.getLongitude();
+//            } catch (NullPointerException e) {
+//                lat = -1.0;
+//                lon = -1.0;
+//            }
+//            Geocoder gcd = new Geocoder(this, Locale.getDefault());
+//            List<Address> addresses = null;
+//            try {
+//                addresses = gcd.getFromLocation(lat, lon, 1);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
             //
             if(inputSearch!=null){
@@ -276,8 +271,7 @@ public class FetchDeals extends ListActivity {
             ListView listView = getListView();
             listView.setAdapter(arrayAdapter);
 
-            //experimental - search box?
-//            setContentView(R.layout.main);
+            //Search box
             if(searchBoxPref.equals("ON")){
                 inputSearch = (EditText) findViewById(R.id.inputSearch1);
                 inputSearch.setVisibility(View.VISIBLE);
@@ -307,12 +301,13 @@ public class FetchDeals extends ListActivity {
                 inputSearch = (EditText) findViewById(R.id.inputSearch1);
                 inputSearch.setVisibility(View.INVISIBLE);
             }
-            //experimental - search box?
+            //search box
 
             listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
             listView.setMultiChoiceModeListener(new ModeCallback());
             listView.setBackgroundResource(R.drawable.shape);
             int[] colors = {0, 0xff00ff00, 0};
+
             listView.setDivider(new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors));
             listView.setDividerHeight(2);
 
@@ -371,12 +366,14 @@ public class FetchDeals extends ListActivity {
                 case R.id.addToFave:
 
                     if(inputSearch.getText().toString().length()>0){
-                        Toast.makeText(FetchDeals.this, "Feature unavailable for the time being. Please clear search and try. ", Toast.LENGTH_LONG).show();
+
+
+                        Toast.makeText(FetchDeals.this, "Feature unavailable for the time being. Please clear search and try.", Toast.LENGTH_LONG).show();
 
                     }
                     else
                     {
-                    SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator", Context.MODE_PRIVATE);
+                    SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator.faves", Context.MODE_PRIVATE);
                         SparseBooleanArray checkedItems = getListView().getCheckedItemPositions();
                         int len = dealList.size();
                      //we need to check if the same deal has been added with a shorter line length setting
@@ -629,7 +626,7 @@ public class FetchDeals extends ListActivity {
         private ProgressDialog dialog = new ProgressDialog(FetchDeals.this);
 
 
-        @Override
+//        @Override
         protected void onPreExecute() {
             this.dialog.setMessage("Please wait while we grab all your deals...");
             this.dialog.show();

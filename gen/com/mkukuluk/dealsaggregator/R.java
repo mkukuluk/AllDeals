@@ -9,10 +9,10 @@ package com.mkukuluk.dealsaggregator;
 
 public final class R {
     public static final class array {
-        public static final int defSiteArray=0x7f060006;
-        public static final int defSiteValues=0x7f060007;
-        public static final int detailsArray=0x7f060004;
-        public static final int detailsValues=0x7f060005;
+        public static final int defSiteArray=0x7f060008;
+        public static final int defSiteValues=0x7f060009;
+        public static final int detailsArray=0x7f060006;
+        public static final int detailsValues=0x7f060007;
         /** <string-array name="listArray">
 <item>Only when on Wi-Fi</item>
 <item>On any network</item>
@@ -25,7 +25,9 @@ public final class R {
         public static final int searchArray=0x7f060000;
         public static final int searchValues=0x7f060001;
         public static final int siteArray=0x7f060002;
+        public static final int siteArrayUAE=0x7f060004;
         public static final int siteValues=0x7f060003;
+        public static final int siteValuesUAE=0x7f060005;
     }
     public static final class attr {
     }
@@ -33,14 +35,16 @@ public final class R {
         public static final int bag_icon=0x7f020000;
         public static final int bag_icon2=0x7f020001;
         public static final int bag_icon3=0x7f020002;
-        public static final int cr7=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
-        public static final int shape=0x7f020005;
+        public static final int cart=0x7f020003;
+        public static final int cr7=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
+        public static final int shape=0x7f020006;
     }
     public static final class id {
         public static final int adView=0x7f090010;
         public static final int adView1=0x7f090015;
         public static final int addToFave=0x7f090018;
+        public static final int addToNew=0x7f090008;
         public static final int anchor=0x7f090002;
         public static final int clearTextInput=0x7f090007;
         public static final int demo_collection_button=0x7f090009;
@@ -59,7 +63,6 @@ public final class R {
         public static final int pager_title_strip=0x7f090001;
         public static final int photo=0x7f090012;
         public static final int refresh=0x7f09001c;
-        public static final int saveInput=0x7f090008;
         public static final int separator=0x7f09000e;
         public static final int settings=0x7f09001b;
         public static final int team=0x7f090014;
@@ -86,7 +89,8 @@ public final class R {
         public static final int favedelmenu=0x7f080000;
         public static final int list_select_menu=0x7f080001;
         public static final int mainmenu=0x7f080002;
-        public static final int usersitemenu=0x7f080003;
+        public static final int settingscreenmenu=0x7f080003;
+        public static final int usersitemenu=0x7f080004;
     }
     public static final class raw {
         public static final int test=0x7f050000;
@@ -115,5 +119,6 @@ public final class R {
     }
     public static final class xml {
         public static final int preferences=0x7f040000;
+        public static final int preferencesuae=0x7f040001;
     }
 }

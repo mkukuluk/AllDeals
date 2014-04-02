@@ -351,7 +351,7 @@ public class MySitesActivity extends ListActivity {
                     }
                     else
                     {
-                        SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator", Context.MODE_PRIVATE);
+                        SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator.faves", Context.MODE_PRIVATE);
                         SparseBooleanArray checkedItems = getListView().getCheckedItemPositions();
                         int len = dealList.size();
                         //we need to check if the same deal has been added with a shorter line length setting

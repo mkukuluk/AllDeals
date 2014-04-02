@@ -14,6 +14,7 @@
 
 package com.mkukuluk.dealsaggregator;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -23,16 +24,29 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
+import android.preference.PreferenceScreen;
+import android.text.Html;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.mkukuluk.dealsaggregator.R;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 /**
@@ -45,6 +59,14 @@ public class SettingsActivity extends PreferenceActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator.usersite", Context.MODE_PRIVATE);
+//        Map<String, ?> tempMap = new HashMap();
+//        tempMap = prefs.getAll();
+//        Iterator it = tempMap.entrySet().iterator();
+//        if(tempMap.size()==0){
+
+
 
         // Loads the XML preferences file.
         LocationManager locationManager = (LocationManager)
@@ -60,10 +82,6 @@ public class SettingsActivity extends PreferenceActivity
             lat = -1.0;
             lon = -1.0;
         }
-//        lat = 24.473635;
-//
-//
-//        lon = 54.36533;
         Geocoder gcd = new Geocoder(this, Locale.getDefault());
         List<Address> addresses = null;
         try {
@@ -77,16 +95,79 @@ public class SettingsActivity extends PreferenceActivity
             }else if(addresses.get(0).getCountryCode().equalsIgnoreCase("AE")){
                 addPreferencesFromResource(R.xml.preferencesuae);
             }
-//                System.out.println(addresses.get(0).getLocality());
             Toast.makeText(SettingsActivity.this, "Latitude " + lat + " Longitude " + lon + " " + addresses.get(0).getCountryCode(), Toast.LENGTH_LONG).show();
         }else{
             addPreferencesFromResource(R.xml.preferences);
+
             Toast.makeText(SettingsActivity.this, "Latitude "+lat+" Longitude "+lon+" ", Toast.LENGTH_LONG).show();
         }
 
 
         Preference preferences=findPreference("editUserSites");
         preferences.setIntent(new Intent(getBaseContext(), ManageMySitesActivity.class));
+
+//        }
+//        else {
+//            ArrayList<String> siteNames = new ArrayList<String>();
+//            ArrayList<String> siteURLs = new ArrayList<String>();
+//            while(it.hasNext()){
+//                Map.Entry pairs = (Map.Entry)it.next();
+//                siteNames.add(pairs.getValue().toString());
+//                siteURLs.add(pairs.getKey().toString());
+//
+//
+//            }
+//            //Test code
+//            PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(this);
+//
+//            PreferenceCategory category = new PreferenceCategory(this);
+//            category.setTitle("category name");
+//
+//            screen.addPreference(category);
+//
+//            ListPreference searchPref = new ListPreference(this);
+//            searchPref.setTitle("Search Option");
+//            searchPref.setSummary("Turn the Search box ON or OFF");
+//            searchPref.setKey("searchPref");
+//            searchPref.setDefaultValue("detailsON");
+//            String[] temp = getResources().getStringArray(R.array.searchArray);
+//            String[] tempVals = getResources().getStringArray(R.array.searchValues);
+//            searchPref.setEntries(temp);
+//            searchPref.setEntryValues(tempVals);
+//
+//
+//            String[] urlNames = new String[siteNames.size()];
+//            siteNames.toArray(urlNames);
+//            String[] urlArray = new String[siteURLs.size()];
+//            siteURLs.toArray(urlArray);
+//
+//
+//            MultiSelectListPreference searchPref2 = new MultiSelectListPreference(this);
+//            searchPref2.setTitle("Sites");
+//            searchPref2.setSummary("Sites");
+//            searchPref2.setKey("msSitePref");
+//            searchPref2.setEntries(urlNames);
+//            searchPref2.setEntryValues(urlArray);
+//
+//            Intent intent = new Intent(this, ManageMySitesActivity.class);
+//            Preference pref = new Preference(this);
+//            pref.setTitle("Manage sites");
+//            pref.setSummary("Manage Sites");
+//            pref.setKey("editUserSites");
+//            pref.setIntent(intent);
+//
+//
+//            category.addPreference(searchPref);
+//            category.addPreference(searchPref2);
+//            category.addPreference(pref);
+//
+//
+//            setPreferenceScreen(screen);
+//            FetchDeals.refreshDisplay = true;
+////            finish();
+//
+//        }
+        //end test code
 
     }
 
@@ -117,5 +198,29 @@ public class SettingsActivity extends PreferenceActivity
 
         FetchDeals.refreshDisplay = true;
         finish();
+    }
+
+
+    //Help screen menu
+    // Populates the activity's options menu.
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settingscreenmenu, menu);
+        return true;
+    }
+
+    // Handles the user's menu selection.
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.help:
+                Intent mainActivity = new Intent(getBaseContext(), SettingsHelpActivity.class);
+                startActivity(mainActivity);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
