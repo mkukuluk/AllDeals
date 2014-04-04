@@ -332,8 +332,18 @@ public class MySitesActivity extends ListActivity {
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.list_select_menu, menu);
+            MenuItem item = menu.findItem(R.id.menu_item_share);
+
+            // Fetch and store ShareActionProvider
+            mShareActionProvider = (ShareActionProvider) item.getActionProvider();
             mode.setTitle("Select Items");
             return true;
+        }
+
+        private void setShareIntent(Intent shareIntent) {
+            if (mShareActionProvider != null) {
+                mShareActionProvider.setShareIntent(shareIntent);
+            }
         }
 
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
@@ -341,6 +351,8 @@ public class MySitesActivity extends ListActivity {
         }
 
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            SparseBooleanArray checkedItems = getListView().getCheckedItemPositions();
+            int len = dealList.size();
             switch (item.getItemId()) {
 
                 case R.id.addToFave:
@@ -352,8 +364,7 @@ public class MySitesActivity extends ListActivity {
                     else
                     {
                         SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator.faves", Context.MODE_PRIVATE);
-                        SparseBooleanArray checkedItems = getListView().getCheckedItemPositions();
-                        int len = dealList.size();
+
                         //we need to check if the same deal has been added with a shorter line length setting
                         Map<String, ?> temp = new HashMap();
                         temp = prefs.getAll();
@@ -408,6 +419,24 @@ public class MySitesActivity extends ListActivity {
                         mode.finish();
                     }
                     break;
+
+                //share
+                case R.id.menu_item_share:
+
+                    //get all the checked items and put them in a string builder:
+                    StringBuilder allCheckedDeals = new StringBuilder();
+                    for (int i = 0; i < len; i++)
+                        if (checkedItems.get(i)) {
+                            allCheckedDeals.append(dealList.get(i).substring(dealList.get(i).lastIndexOf(Html.fromHtml("&#9829;").toString()+"   ")+1).trim()+" - "+dealURLList.get(i)+"\n\n");
+
+                        }
+
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Check out these great deals from 'All Deals' Android App (https://play.google.com/store/apps/details?id=com.mkukuluk.dealsaggregator) \n\n"+allCheckedDeals);
+                    sendIntent.setType("text/plain");
+                    startActivity(Intent.createChooser(sendIntent, "How do you want to share?"));
+                    break;
                 default:
                     Toast.makeText(MySitesActivity.this, "Clicked " + item.getTitle(),
                             Toast.LENGTH_SHORT).show();
@@ -416,11 +445,6 @@ public class MySitesActivity extends ListActivity {
             return true;
         }
 
-        private void setShareIntent(Intent shareIntent) {
-            if (mShareActionProvider != null) {
-                mShareActionProvider.setShareIntent(shareIntent);
-            }
-        }
 
         public void onDestroyActionMode(ActionMode mode) {
         }

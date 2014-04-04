@@ -387,7 +387,13 @@ public class ManageMySitesActivity extends FragmentActivity implements ActionBar
             switch (item.getItemId()) {
 
                 case R.id.useredit:
+                    if(checkedItems.size()>1){
+                        Toast.makeText(ManageMySitesActivity.this, "Please select only 1 item to edit.", Toast.LENGTH_SHORT).show();
 
+                        mode.finish();
+                        break;
+                    }
+                    getActionBar().setSelectedNavigationItem(0);
                    isedit = true;
                     Map<String, ?> temp = new HashMap();
                     temp = prefs.getAll();
@@ -397,7 +403,6 @@ public class ManageMySitesActivity extends FragmentActivity implements ActionBar
                             prefilledURL = temp.get(dealList.get(i)).toString();
                         }
             }
-                    getActionBar().setSelectedNavigationItem(0);
 
                     mode.finish();
                     break;

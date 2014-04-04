@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
 
@@ -44,6 +45,7 @@ public class DisplayFavesActivity extends ListActivity {
     private List<String>dealURLList = new ArrayList<String>();
     private ArrayAdapter arrayAdapter ;
     EditText inputSearch = null;
+    private ShareActionProvider mShareActionProvider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,8 +153,16 @@ public class DisplayFavesActivity extends ListActivity {
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.favedelmenu, menu);
+            MenuItem item = menu.findItem(R.id.menu_item_share);
+            mShareActionProvider = (ShareActionProvider) item.getActionProvider();
             mode.setTitle("Select Items");
             return true;
+        }
+
+        private void setShareIntent(Intent shareIntent) {
+            if (mShareActionProvider != null) {
+                mShareActionProvider.setShareIntent(shareIntent);
+            }
         }
 
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
@@ -160,6 +170,12 @@ public class DisplayFavesActivity extends ListActivity {
         }
 
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+
+            SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator.faves", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            SparseBooleanArray checkedItems = getListView().getCheckedItemPositions();
+            int len = dealList.size();
+
             switch (item.getItemId()) {
 //                case R.id.share:
 //                    Toast.makeText(FetchDeals.this, "Shared " + getListView().getCheckedItemCount() +
@@ -167,14 +183,9 @@ public class DisplayFavesActivity extends ListActivity {
 //                    mShareActionProvider = (ShareActionProvider) item.getActionProvider();
 //                    mode.finish();
 //                    break;
+
                 case R.id.favedel:
-
-
-                    SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator.faves", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    SparseBooleanArray checkedItems = getListView().getCheckedItemPositions();
-                    int len = dealList.size();
-                    for (int i = 0; i < len; i++)
+                       for (int i = 0; i < len; i++)
                         if (checkedItems.get(i)) {
 //                            String tempDl = dealList.get(i);
                            
@@ -194,6 +205,23 @@ public class DisplayFavesActivity extends ListActivity {
 
                     mode.finish();
                     finish();
+                    break;
+
+                case R.id.menu_item_share:
+
+                    //get all the checked items and put them in a string builder:
+                    StringBuilder allCheckedDeals = new StringBuilder();
+                    for (int i = 0; i < len; i++)
+                        if (checkedItems.get(i)) {
+                            allCheckedDeals.append(dealList.get(i).substring(dealList.get(i).lastIndexOf(Html.fromHtml("&#9829;").toString()+"   ")+1).trim()+" - "+dealURLList.get(i)+"\n\n");
+
+                        }
+
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "These are some of my favorite deals from 'All Deals' Android App (https://play.google.com/store/apps/details?id=com.mkukuluk.dealsaggregator) \n\n"+allCheckedDeals);
+                    sendIntent.setType("text/plain");
+                    startActivity(Intent.createChooser(sendIntent, "How do you want to share?"));
                     break;
                 default:
                     Toast.makeText(DisplayFavesActivity.this, "Clicked " + item.getTitle(),

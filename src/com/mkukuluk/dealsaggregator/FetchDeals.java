@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -55,6 +56,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ShareActionProvider;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.xmlpull.v1.XmlPullParserException;
@@ -352,8 +354,20 @@ public class FetchDeals extends ListActivity {
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.list_select_menu, menu);
+            // Locate MenuItem with ShareActionProvider
+            MenuItem item = menu.findItem(R.id.menu_item_share);
+
+            // Fetch and store ShareActionProvider
+            mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+
             mode.setTitle("Select Items");
             return true;
+        }
+
+        private void setShareIntent(Intent shareIntent) {
+            if (mShareActionProvider != null) {
+                mShareActionProvider.setShareIntent(shareIntent);
+            }
         }
 
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
@@ -361,8 +375,26 @@ public class FetchDeals extends ListActivity {
         }
 
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator.faves", Context.MODE_PRIVATE);
+            SparseBooleanArray checkedItems = getListView().getCheckedItemPositions();
+            int len = dealList.size();
             switch (item.getItemId()) {
+                case R.id.menu_item_share:
 
+                    //get all the checked items and put them in a string builder:
+                    StringBuilder allCheckedDeals = new StringBuilder();
+                    for (int i = 0; i < len; i++)
+                        if (checkedItems.get(i)) {
+                            allCheckedDeals.append(dealList.get(i).substring(dealList.get(i).lastIndexOf(Html.fromHtml("&#9829;").toString()+"   ")+1).trim()+" - "+dealURLList.get(i)+"\n\n");
+
+                        }
+
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Check out these deals from 'All Deals' Android App (https://play.google.com/store/apps/details?id=com.mkukuluk.dealsaggregator) \n\n"+allCheckedDeals);
+                    sendIntent.setType("text/plain");
+                    startActivity(Intent.createChooser(sendIntent, "How do you want to share?"));
+                    break;
                 case R.id.addToFave:
 
                     if(inputSearch.getText().toString().length()>0){
@@ -373,9 +405,7 @@ public class FetchDeals extends ListActivity {
                     }
                     else
                     {
-                    SharedPreferences prefs = getSharedPreferences("com.mkukuluk.dealaggregator.faves", Context.MODE_PRIVATE);
-                        SparseBooleanArray checkedItems = getListView().getCheckedItemPositions();
-                        int len = dealList.size();
+
                      //we need to check if the same deal has been added with a shorter line length setting
                         Map<String, ?> temp = new HashMap();
                         temp = prefs.getAll();
@@ -431,11 +461,7 @@ public class FetchDeals extends ListActivity {
             return true;
         }
 
-        private void setShareIntent(Intent shareIntent) {
-            if (mShareActionProvider != null) {
-                mShareActionProvider.setShareIntent(shareIntent);
-            }
-        }
+
 
         public void onDestroyActionMode(ActionMode mode) {
         }
@@ -912,5 +938,29 @@ public class FetchDeals extends ListActivity {
 //        }
 //
 //    }
+
+
+
+
+    //More cutomview code :)
+    public class AlternateRowCursorAdapter extends ArrayAdapter {
+
+        private int[] colors = new int[] { Color.parseColor("#F0F0F0"), Color.parseColor("#D2E4FC") };
+
+        public AlternateRowCursorAdapter(Context context, int textViewResourceId) {
+            super(context, textViewResourceId);
+        }
+
+        /**
+         * Display rows in alternating colors
+         */
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = super.getView(position, convertView, parent);
+            int colorPos = position % colors.length;
+            view.setBackgroundColor(colors[colorPos]);
+            return view;
+        }
+    }
 }
 

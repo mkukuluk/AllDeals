@@ -11,6 +11,14 @@
         android:title="Add To Favorites"
         android:icon="@android:drawable/ic_menu_add"
         android:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_item_share"
+        android:showAsAction="always"
+        android:title="Share"
+        android:icon="@android:drawable/ic_menu_share"/>
+        <!--android:actionProviderClass="android.widget.ShareActionProvider"-->
+
     </menu>
 
 

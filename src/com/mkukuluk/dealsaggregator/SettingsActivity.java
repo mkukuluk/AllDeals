@@ -89,20 +89,20 @@ public class SettingsActivity extends PreferenceActivity
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (addresses.size() > 0){
-            if(addresses.get(0).getCountryCode().equalsIgnoreCase("US")){
-                addPreferencesFromResource(R.xml.preferences);
-            }else if(addresses.get(0).getCountryCode().equalsIgnoreCase("AE")){
-                addPreferencesFromResource(R.xml.preferencesuae);
-            }
-            Toast.makeText(SettingsActivity.this, "Latitude " + lat + " Longitude " + lon + " " + addresses.get(0).getCountryCode(), Toast.LENGTH_LONG).show();
-        }else{
-            addPreferencesFromResource(R.xml.preferences);
+//        if (addresses.size() > 0){
+//            if(addresses.get(0).getCountryCode().equalsIgnoreCase("US")){
+//                addPreferencesFromResource(R.xml.preferences);
+//            }else if(addresses.get(0).getCountryCode().equalsIgnoreCase("AE")){
+//                addPreferencesFromResource(R.xml.preferencesuae);
+//            }
+////            Toast.makeText(SettingsActivity.this, "Latitude " + lat + " Longitude " + lon + " " + addresses.get(0).getCountryCode(), Toast.LENGTH_LONG).show();
+//        }else{
+//            addPreferencesFromResource(R.xml.preferences);
+//
+////            Toast.makeText(SettingsActivity.this, "Latitude "+lat+" Longitude "+lon+" ", Toast.LENGTH_LONG).show();
+//        }
 
-            Toast.makeText(SettingsActivity.this, "Latitude "+lat+" Longitude "+lon+" ", Toast.LENGTH_LONG).show();
-        }
-
-
+        addPreferencesFromResource(R.xml.preferences);
         Preference preferences=findPreference("editUserSites");
         preferences.setIntent(new Intent(getBaseContext(), ManageMySitesActivity.class));
 
